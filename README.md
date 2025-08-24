@@ -64,14 +64,13 @@ NeuroScroll helps you understand your digital consumption patterns by analyzing 
 
 
 2. **Build the Extension**
-
-   ```bash
+```bash
 
    npm install
 
    npm run build
 
-   ```
+```
 
 
 
