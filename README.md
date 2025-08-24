@@ -1,187 +1,46 @@
-# 🧠 NeuroScroll
-
-**A privacy-first Chrome extension that analyzes YouTube Shorts viewing behavior through neuroscience-based metrics.**
-
-[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://chrome.google.com/webstore)
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
-[![TensorFlow.js](https://img.shields.io/badge/TensorFlow.js-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)](https://www.tensorflow.org/js)
-
----
-
-## 🎯 What is NeuroScroll?
-
-NeuroScroll helps you understand your digital consumption patterns by analyzing how you interact with YouTube Shorts. Using neuroscience-based metrics, it provides insights into attention span, scrolling behavior, and viewing habits—all while keeping your data completely private on your device.
-
----
-
-## 🔑 Key Features
-
-- **🔒 Privacy-First**: All data stays on your device—nothing is sent to external servers  
-- **🧠 Neuroscience Metrics**: Behavioral analysis using dopamine patterns and attention research  
-- **📊 Real-Time Analytics**: Live tracking with visualizations  
-- **🤖 AI Insights**: TensorFlow.js-powered session classification and recommendations  
-- **♿ Accessible Design**: Screen reader and keyboard support  
-- **📱 Modern UI**: Dark mode with responsive design  
-
----
-
-## 🚀 Quick Start
-
-### **Installation & Build**
-
-1. **Clone the repository**
-```bash
-git clone https://github.com/PratikCreates/neuroscroll.git
-cd neuroscroll
-```
-```bash
-#Install dependencies
-npm install
-```
-Build the extension
-```bash      
-npm run build
-Load in Chrome
-```
-Open chrome://extensions/
-
-Enable "Developer mode"
-
-Click "Load unpacked" and select the project folder
-
-NeuroScroll icon should appear in your extensions bar
-
-Usage
-Click the extension icon and enable the tracking service
-
-Go to YouTube Shorts and click "Start Session"
-
-Browse videos as usual
-
-View insights in the popup or click "Advanced Stats"
-
-Export data as CSV for personal tracking
-
-📊 Metrics Explained
-Basic Metrics
-Videos Watched: Total Shorts viewed
-
-Interactions: Scrolls, enters, leaves, and replays
-
-Attention Span: Average watch time per video
-
-Dopamine Index: Measures rapid content consumption
-
-Advanced Analytics
-Scroll Momentum: % of videos skipped in under 3 seconds
-
-Reward Variability: Consistency of viewing times
-
-Binge Bursts: Streaks of 5+ rapid skips
-
-Engagement Half-Life: How quickly attention drops
-
-Session Archetype: Explorer 🟢, Sampler 🟡, or Doomscroller 🔴
-
-Cognitive Load: Mental strain from rapid content switching
-
-🛠 Development
-Tech Stack
-Frontend: Next.js 14, TypeScript, Tailwind CSS
-
-Extension: Chrome Extension Manifest V3
-
-AI/ML: TensorFlow.js for behavioral classification
-
-Testing: Jest, Playwright for E2E tests
-
-Build Tools: Webpack, PostCSS
-
-Project Structure
+# 🧠 NeuroScroll **A privacy-first Chrome extension that analyzes YouTube Shorts viewing behavior through neuroscience-based metrics.** [![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://chrome.google.com/webstore) [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/) [![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/) [![TensorFlow.js](https://img.shields.io/badge/TensorFlow.js-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)](https://www.tensorflow.org/js) --- ## 🎯 **What is NeuroScroll?** NeuroScroll helps you understand your digital consumption patterns by analyzing how you interact with YouTube Shorts. Using neuroscience-based metrics, it provides insights into your attention span, scrolling behavior, and viewing habits—all while keeping your data completely private on your device. ### **🔑 Key Features** - **🔒 Privacy-First**: All data stays on your device—nothing is sent to external servers - **🧠 Neuroscience Metrics**: Advanced behavioral analysis using dopamine patterns and attention research - **📊 Real-Time Analytics**: Live tracking with beautiful visualizations - **🤖 AI Insights**: TensorFlow.js-powered session classification and recommendations - **♿ Accessible Design**: Full accessibility support with screen readers and keyboard navigation - **📱 Modern UI**: Dark mode interface with responsive design --- ## 🚀 **Quick Start** ### **Installation** 1. **Download the Extension**    - Clone this repository or download the ZIP    - Extract to your desired location 2. **Build the Extension**
 bash
-Copy
-Edit
-├── manifest.json          # Chrome extension manifest
-├── src/                   # Core extension logic
-│   ├── background/        # Service worker
-│   ├── content/           # YouTube integration
-│   ├── utils/             # Shared utilities & metrics engine
-│   └── types/             # TypeScript definitions
-├── popup-src/             # Next.js popup application
-│   ├── app/               # App router pages
-│   ├── components/        # React components
-│   └── hooks/             # Custom React hooks
-├── popup-dist/            # Built popup files
-├── tests/                 # E2E and integration tests
-├── docs.html              # User documentation
-Start Development
-```bash
-npm run dev
-Load the extension in Chrome via chrome://extensions/ in Developer mode.
-```
-🔒 Privacy & Security
-Data Privacy
-Local Storage Only: All metrics saved locally
 
-No External Servers: Zero data transmission
+   npm install
 
-No Personal Info: Only behavioral patterns analyzed
+   npm run build
+3. **Load in Chrome**    - Open Chrome and go to chrome://extensions/    - Enable "Developer mode" (top right toggle)    - Click "Load unpacked" and select the project folder    - The NeuroScroll icon should appear in your extensions bar ### **Usage** 1. **Enable the Service**: Click the extension icon and enable the tracking service 2. **Start a Session**: Go to YouTube Shorts and click "Start Session" 3. **Browse Normally**: Watch videos as you usually would 4. **View Insights**: Check your metrics in the popup or click "Advanced Stats" for detailed analysis 5. **Export Data**: Download your data as CSV for personal tracking --- ## 📊 **Metrics Explained** ### **Basic Metrics** - **Videos Watched**: Total count of Shorts viewed in your session - **Interactions**: Total scrolls, enters, leaves, and replays - **Attention Span**: Average time spent watching each video - **Dopamine Index**: Measures rapid content consumption patterns ### **Advanced Analytics** - **Scroll Momentum**: Percentage of videos skipped in under 3 seconds - **Reward Variability**: Consistency of your viewing times (high variability may indicate addictive patterns) - **Binge Bursts**: Streaks of 5+ rapid skips in a row - **Engagement Half-Life**: How quickly your attention drops during a session - **Session Archetype**: AI classification as Explorer 🟢, Sampler 🟡, or Doomscroller 🔴 - **Cognitive Load**: Mental strain from rapid content switching --- ## 🛠 **Development** ### **Tech Stack** - **Frontend**: Next.js 14, TypeScript, Tailwind CSS - **Extension**: Chrome Extension Manifest V3 - **AI/ML**: TensorFlow.js for behavioral classification - **Testing**: Jest, Playwright for E2E testing - **Build**: Webpack, PostCSS ### **Project Structure**
+├── manifest.json              # Chrome extension manifest
 
-User Control: Export or delete data anytime
+├── src/                       # Core extension logic
 
-Permissions
-activeTab: Detect when on YouTube Shorts
+│   ├── background/           # Service worker
 
-storage: Save metrics locally
+│   ├── content/              # YouTube integration
 
-scripting: Analyze page interactions
+│   ├── utils/                # Shared utilities & metrics engine
 
-🤝 Contributing
-Getting Started
-Fork the repo
+│   └── types/                # TypeScript definitions
 
-Create a feature branch: git checkout -b feature/amazing-feature
+├── popup-src/                # Next.js popup application
 
-Make changes & add tests
+│   ├── app/                  # App router pages
 
-Ensure tests pass: npm run test
+│   ├── components/           # React components
 
-Commit: git commit -m 'Add amazing feature'
+│   └── hooks/                # Custom React hooks
 
-Push branch and open a Pull Request
+├── popup-dist/               # Built popup files
 
-Guidelines
-Follow TypeScript/React patterns
+├── tests/                    # E2E and integration tests
 
-Add tests for new features
+├── docs.html                 # User documentation
+bash
 
-Ensure accessibility
+   git clone https://github.com/PratikCreates/neuroscroll.git
 
-Maintain privacy-first principles
+   cd neuroscroll
+2. **Install dependencies**
+bash
 
-📄 License
-MIT License — see LICENSE for details.
+   npm install
+3. **Start development**
+bash
 
-👨‍💻 Author
-Pratik Shah
-
-GitHub: @PratikCreates
-
-LinkedIn: PratikCreates
-
-📈 Roadmap
- Chrome Web Store Release
-
- Firefox Extension Support
-
- Advanced AI Recommendations
-
- Data Visualization Improvements
-
- Mobile App Companion
-
-<div align="center"> **Made with 🧠 for mindful digital consumption**
-⭐ Star this repo • 🐛 Report Bug • 💡 Request Feature
-
-</div> ```
+   npm run dev
+4. **Load extension in Chrome**    - Go to chrome://extensions/    - Enable Developer mode    - Click "Load unpacked" and select the project folder --- ## 🔒 **Privacy & Security** ### **Data Privacy** - **Local Storage Only**: All data stored using Chrome's local storage API - **No External Servers**: Zero data transmission to external services - **No Personal Info**: Only behavioral patterns are analyzed, not content - **User Control**: Complete control over data with export/delete options ### **Permissions** - **activeTab**: To detect when you're on YouTube Shorts - **storage**: To save your metrics locally - **scripting**: To analyze page interactions --- ## 🤝 **Contributing** We welcome contributions! Here's how you can help: ### **Getting Started** 1. Fork the repository 2. Create a feature branch: git checkout -b feature/amazing-feature 3. Make your changes and add tests 4. Ensure all tests pass: npm run test 5. Commit your changes: git commit -m 'Add amazing feature' 6. Push to the branch: git push origin feature/amazing-feature 7. Open a Pull Request ### **Development Guidelines** - **Code Style**: Follow the existing TypeScript/React patterns - **Testing**: Add tests for new features - **Accessibility**: Ensure all UI is accessible - **Privacy**: Maintain privacy-first principles --- ## 📄 **License** This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. --- ## 👨‍💻 **Author** **Pratik Shah** - 🐙 **GitHub**: [@PratikCreates](https://github.com/PratikCreates) - 💼 **LinkedIn**: [PratikCreates](https://linkedin.com/in/PratikCreates) --- ## 📈 **Roadmap** - [ ] **Chrome Web Store Release** - [ ] **Firefox Extension Support** - [ ] **Advanced AI Recommendations** - [ ] **Data Visualization Improvements** - [ ] **Mobile App Companion** --- <div align="center"> **Made with 🧠 for mindful digital consumption** [⭐ Star this repo](https://github.com/PratikCreates/neuroscroll) • [🐛 Report Bug](https://github.com/PratikCreates/neuroscroll/issues) • [💡 Request Feature](https://github.com/PratikCreates/neuroscroll/issues) </div>
