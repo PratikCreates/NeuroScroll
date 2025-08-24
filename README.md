@@ -194,46 +194,6 @@ NeuroScroll helps you understand your digital consumption patterns by analyzing 
 
 
 
-### **Available Scripts**
-
-```bash
-
-# Development
-
-npm run dev              # Build and watch for changes
-
-npm run build           # Build for production
-
-npm run build:popup     # Build popup only
-
-
-
-# Testing
-
-npm run test            # Run unit tests
-
-npm run test:e2e        # Run E2E tests
-
-npm run test:coverage   # Generate coverage report
-
-
-
-# Quality
-
-npm run lint            # Run ESLint
-
-npm run type-check      # TypeScript type checking
-
-npm run format          # Format code with Prettier
-
-```
-
-
-
-### **Development Setup**
-
-1. **Clone the repository**
-
 ```bash
 
    git clone https://github.com/PratikCreates/neuroscroll.git
@@ -275,51 +235,6 @@ npm run format          # Format code with Prettier
 
 
 ---
-
-
-
-## 🧪 **Testing**
-
-
-
-### **Unit Tests**
-
-```bash
-
-npm run test                    # Run all unit tests
-
-npm run test:watch             # Watch mode
-
-npm run test:coverage          # With coverage report
-
-```
-
-
-
-### **E2E Tests**
-
-```bash
-
-npm run test:e2e               # Run Playwright tests
-
-npm run test:e2e:headed        # Run with browser UI
-
-```
-
-
-
-### **Accessibility Testing**
-
-```bash
-
-npm run test:a11y              # Run accessibility tests
-
-```
-
-
-
----
-
 
 
 ## 🔒 **Privacy & Security**
