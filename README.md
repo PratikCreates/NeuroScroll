@@ -235,33 +235,33 @@ npm run format          # Format code with Prettier
 
 1. **Clone the repository**
 
-   ```bash
+```bash
 
    git clone https://github.com/PratikCreates/neuroscroll.git
 
    cd neuroscroll
 
-   ```
+```
 
 
 
 2. **Install dependencies**
 
-   ```bash
+```bash
 
    npm install
 
-   ```
+```
 
 
 
 3. **Start development**
 
-   ```bash
+```bash
 
    npm run dev
 
-   ```
+```
 
 
 
