@@ -38,8 +38,9 @@ NeuroScroll helps you understand your digital consumption patterns by analyzing 
 - **🤖 AI Insights**: TensorFlow.js-powered session classification and recommendations
 
 - **♿ Accessible Design**: Full accessibility support with screen readers and keyboard navigation
-
 - **📱 Modern UI**: Dark mode interface with responsive design
+- **📅 Session History**: View past sessions and track your progress over time
+- **⚙️ Configurable**: Toggle tracking service and manage your data easily
 
 
 
@@ -68,8 +69,8 @@ NeuroScroll helps you understand your digital consumption patterns by analyzing 
    ```bash
 
    npm install
-
-   npm run build
+   npm run build:popup
+   npm run build:extension
 
    ```
 
@@ -98,8 +99,8 @@ NeuroScroll helps you understand your digital consumption patterns by analyzing 
 3. **Browse Normally**: Watch videos as you usually would
 
 4. **View Insights**: Check your metrics in the popup or click "Advanced Stats" for detailed analysis
-
-5. **Export Data**: Download your data as CSV for personal tracking
+5. **Check History**: Navigate to the History page to see past session data
+6. **Export Data**: Download your data as CSV for personal tracking
 
 
 
