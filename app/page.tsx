@@ -5,6 +5,8 @@ import MetricsCard from './components/MetricsCard'
 import AttentionChart from './components/AttentionChart'
 import FatigueVisualization from './components/FatigueVisualization'
 import BrainMascot from './components/BrainMascot'
+import NavBar from './components/NavBar'
+
 
 export default function Dashboard() {
   const { metrics, loading, error, refresh, exportData, clearData, startSession } = useChromeStorage()
@@ -29,10 +31,10 @@ export default function Dashboard() {
   ] : []
 
   return (
-    <div className="popup-container">
+    <div className="popup-container pb-20">
       {/* Header with Brain Mascot */}
       <div className="text-center mb-6">
-        <BrainMascot 
+        <BrainMascot
           fatigueLevel={metrics ? Math.min(metrics.sessionLength / 3600, 1) : 0}
           attentionSpan={metrics?.attentionSpan || 0}
           dopamineIndex={metrics?.dopamineIndex || 0}
@@ -42,7 +44,7 @@ export default function Dashboard() {
           YouTube Shorts behavior analyzer
         </p>
       </div>
-      
+
       {/* Core Metrics */}
       <div className="metrics-card">
         <MetricsCard
@@ -52,21 +54,21 @@ export default function Dashboard() {
           tooltip="Current tracking session state"
           status={metrics?.sessionActive ? 'active' : 'inactive'}
         />
-        
+
         <MetricsCard
           title="Videos Watched"
           emoji="📺"
           value={loading ? '-' : metrics?.videoCount || 0}
           tooltip="Total number of YouTube Shorts viewed in this session"
         />
-        
+
         <MetricsCard
           title="Interactions"
           emoji="👆"
           value={loading ? '-' : metrics?.interactionCount || 0}
           tooltip="Total user interactions (scrolls, enters, leaves, replays)"
         />
-        
+
         <MetricsCard
           title="Attention Span"
           emoji="🧠"
@@ -79,7 +81,7 @@ export default function Dashboard() {
             </div>
           )}
         </MetricsCard>
-        
+
         <MetricsCard
           title="Dopamine Spike Index"
           emoji="⚡"
@@ -87,14 +89,14 @@ export default function Dashboard() {
           tooltip="Rapid content consumption rate - higher values may indicate dopamine-seeking behavior"
           status={metrics && metrics.dopamineIndex > 8 ? 'warning' : 'normal'}
         />
-        
+
         <MetricsCard
           title="Replay Sensitivity"
           emoji="🔁"
           value={loading ? '-' : (metrics?.replaySensitivity || 0).toFixed(2)}
           tooltip="Number of video replays - indicates content engagement or compulsive behavior"
         />
-        
+
         <MetricsCard
           title="Session Length"
           emoji="⏱️"
@@ -102,7 +104,7 @@ export default function Dashboard() {
           tooltip="Total session duration - longer sessions may indicate binge behavior"
           status={metrics && metrics.sessionLength > 1800 ? 'warning' : 'normal'}
         />
-        
+
         <MetricsCard
           title="Circadian Drift"
           emoji="🌙"
@@ -118,7 +120,7 @@ export default function Dashboard() {
           <FatigueVisualization data={fatigueData} width={350} height={60} />
         </div>
       )}
-      
+
       {/* Debug Section */}
       <div className="debug-section">
         <div className="text-xs font-semibold mb-3 opacity-80 uppercase">
@@ -133,34 +135,34 @@ export default function Dashboard() {
         <div className="text-xs opacity-70 mb-4">
           Last Update: {metrics?.lastUpdate || 'Never'}
         </div>
-        
+
         <div className="flex gap-2 mb-2">
-          <button 
-            className="btn-primary flex-1" 
+          <button
+            className="btn-primary flex-1"
             onClick={refresh}
             disabled={loading}
           >
             Refresh
           </button>
-          <button 
-            className="btn-primary flex-1" 
+          <button
+            className="btn-primary flex-1"
             onClick={exportData}
             disabled={loading}
           >
             Export
           </button>
-          <button 
-            className="btn-primary flex-1" 
+          <button
+            className="btn-primary flex-1"
             onClick={clearData}
             disabled={loading}
           >
             Clear
           </button>
         </div>
-        
+
         <div className="flex">
-          <button 
-            className="btn-primary btn-success w-full" 
+          <button
+            className="btn-primary btn-success w-full"
             onClick={startSession}
             disabled={loading}
           >
@@ -168,12 +170,15 @@ export default function Dashboard() {
           </button>
         </div>
       </div>
-      
+
       {error && (
         <div className="mt-3 p-2 bg-red-500/20 rounded text-xs text-red-200">
           Error: {error}
         </div>
       )}
+
+      <NavBar />
     </div>
+
   )
 }

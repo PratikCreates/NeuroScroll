@@ -19,28 +19,13 @@ const nextConfig = {
       net: false,
       tls: false,
     };
-    
+
     // For Chrome extension compatibility, we need to avoid inline scripts
     if (!isServer) {
       // Disable runtime chunk to prevent inline scripts
       config.optimization.runtimeChunk = false;
-      
-      // Minimize chunks to reduce CSP issues
-      config.optimization.splitChunks = {
-        chunks: 'all',
-        minSize: 0,
-        cacheGroups: {
-          default: false,
-          vendors: false,
-          main: {
-            name: 'main',
-            chunks: 'all',
-            enforce: true
-          }
-        }
-      };
     }
-    
+
     return config;
   }
 };

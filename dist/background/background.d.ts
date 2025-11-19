@@ -1,0 +1,6 @@
+/**
+ * Background service worker for NeuroScroll extension
+ * Handles message passing, data processing, and metrics computation
+ * Requirements: 2.1, 2.2, 2.3, 2.4, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7
+ */
+export {};
