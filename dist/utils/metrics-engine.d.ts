@@ -84,6 +84,24 @@ export declare class MetricsEngine {
      */
     private static classifySessionArchetype;
     /**
+     * Calculate Cognitive Load 🧠
+     * Measures mental processing demand from content switching patterns
+     * Formula: (scroll events + rapid transitions) / total interactions
+     */
+    private static calculateCognitiveLoad;
+    /**
+     * Calculate Habit Strength 🔄
+     * Measures consistency of viewing patterns over time
+     * Formula: 1 - (variance in dwell times / mean dwell time)
+     */
+    private static calculateHabitStrength;
+    /**
+     * Calculate Novelty Bias ✨
+     * Measures preference for new content over familiar patterns
+     * Formula: unique videos / total video interactions
+     */
+    private static calculateNoveltyBias;
+    /**
      * Update metrics in real-time during active session
      */
     static updateRealTimeMetrics(session: ViewingSession): ComputedMetrics;

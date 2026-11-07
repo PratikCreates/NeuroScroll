@@ -40,6 +40,9 @@ export interface ComputedMetrics {
     rewardVariability: number;
     bingeBursts: BingeBurst[];
     engagementHalfLife: number;
+    cognitiveLoad: number;
+    habitStrength: number;
+    noveltyBias: number;
     sessionArchetype: 'explorer' | 'sampler' | 'doomscroller' | 'unknown';
 }
 export interface BingeBurst {

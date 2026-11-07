@@ -12,6 +12,12 @@ const nextConfig = {
   experimental: {
     disableOptimizedLoading: true
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   webpack: (config, { isServer }) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,

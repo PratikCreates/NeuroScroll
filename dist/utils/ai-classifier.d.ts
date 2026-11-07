@@ -2,6 +2,8 @@
  * TensorFlow.js AI Classification System for NeuroScroll
  * Implements neural network for healthy vs doomscroll session classification
  * Requirements: 5.1, 5.2, 5.4, 7.4
+ *
+ * Uses lazy loading to reduce initial bundle size
  */
 import { ComputedMetrics, ViewingSession } from '../types';
 export interface AIClassificationResult {
@@ -29,6 +31,7 @@ export declare class AIClassifier {
     private static isLoading;
     private static modelVersion;
     private static readonly MODEL_URL;
+    private static tf;
     /**
      * Initialize the AI classifier
      */

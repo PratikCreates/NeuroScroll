@@ -2,11 +2,32 @@
  * TensorFlow.js AI Classification System for NeuroScroll
  * Implements neural network for healthy vs doomscroll session classification
  * Requirements: 5.1, 5.2, 5.4, 7.4
+ * 
+ * Uses lazy loading to reduce initial bundle size
  */
 
-import * as tf from '@tensorflow/tfjs';
 import { ComputedMetrics, ViewingSession } from '../types';
 import { MetricsEngine } from './metrics-engine';
+
+// Lazy load TensorFlow.js to reduce bundle size
+let tfPromise: Promise<typeof import('@tensorflow/tfjs')> | null = null;
+
+async function loadTensorFlow(): Promise<typeof import('@tensorflow/tfjs')> {
+  if (!tfPromise) {
+    tfPromise = import('@tensorflow/tfjs');
+    const tf = await tfPromise;
+    // Set backend to CPU or WebGL based on environment
+    // In Service Worker, WebGL might not be available or might try to access document
+    try {
+      // Try to set backend to cpu for safety in background script
+      await tf.setBackend('cpu');
+      console.log('TensorFlow.js backend set to: cpu');
+    } catch (e) {
+      console.warn('Failed to set TensorFlow backend:', e);
+    }
+  }
+  return tfPromise;
+}
 
 export interface AIClassificationResult {
   classification: 'healthy' | 'doomscroll' | 'unknown';
@@ -31,10 +52,11 @@ export interface SessionFeatures {
 }
 
 export class AIClassifier {
-  private static model: tf.LayersModel | null = null;
+  private static model: any = null; // tf.LayersModel type will be available after lazy load
   private static isLoading = false;
   private static modelVersion = '1.0.0';
   private static readonly MODEL_URL = 'indexeddb://neuroscroll-ai-model';
+  private static tf: typeof import('@tensorflow/tfjs') | null = null;
 
   /**
    * Initialize the AI classifier
@@ -45,17 +67,20 @@ export class AIClassifier {
     }
 
     this.isLoading = true;
-    
+
     try {
+      // Lazy load TensorFlow.js
+      this.tf = await loadTensorFlow();
+
       // Try to load existing model from IndexedDB
       await this.loadModel();
-      
+
       if (!this.model) {
         // Create and train a new model if none exists
         await this.createAndTrainModel();
       }
     } catch (error) {
-      console.error('Failed to initialize AI classifier:', error);
+      console.error('Failed to initialize AI classifier:', error instanceof Error ? error.message : String(error));
       // Create a simple fallback model
       await this.createFallbackModel();
     } finally {
@@ -68,7 +93,10 @@ export class AIClassifier {
    */
   private static async loadModel(): Promise<void> {
     try {
-      this.model = await tf.loadLayersModel(this.MODEL_URL);
+      if (!this.tf) {
+        this.tf = await loadTensorFlow();
+      }
+      this.model = await this.tf.loadLayersModel(this.MODEL_URL);
       console.log('AI model loaded successfully');
     } catch (error) {
       console.log('No existing model found, will create new one');
@@ -81,23 +109,27 @@ export class AIClassifier {
   private static async createAndTrainModel(): Promise<void> {
     console.log('Creating new AI classification model...');
 
+    if (!this.tf) {
+      this.tf = await loadTensorFlow();
+    }
+
     // Create model architecture
-    this.model = tf.sequential({
+    this.model = this.tf.sequential({
       layers: [
-        tf.layers.dense({
+        this.tf.layers.dense({
           inputShape: [12], // 12 input features (expanded)
           units: 24,
           activation: 'relu',
           name: 'hidden1'
         }),
-        tf.layers.dropout({ rate: 0.3 }),
-        tf.layers.dense({
+        this.tf.layers.dropout({ rate: 0.3 }),
+        this.tf.layers.dense({
           units: 12,
           activation: 'relu',
           name: 'hidden2'
         }),
-        tf.layers.dropout({ rate: 0.1 }),
-        tf.layers.dense({
+        this.tf.layers.dropout({ rate: 0.1 }),
+        this.tf.layers.dense({
           units: 1,
           activation: 'sigmoid',
           name: 'output'
@@ -107,7 +139,7 @@ export class AIClassifier {
 
     // Compile model
     this.model.compile({
-      optimizer: tf.train.adam(0.001),
+      optimizer: this.tf.train.adam(0.001),
       loss: 'binaryCrossentropy',
       metrics: ['accuracy']
     });
@@ -138,10 +170,14 @@ export class AIClassifier {
    */
   private static async createFallbackModel(): Promise<void> {
     console.log('Creating fallback AI model...');
-    
-    this.model = tf.sequential({
+
+    if (!this.tf) {
+      this.tf = await loadTensorFlow();
+    }
+
+    this.model = this.tf.sequential({
       layers: [
-        tf.layers.dense({
+        this.tf.layers.dense({
           inputShape: [12],
           units: 1,
           activation: 'sigmoid'
@@ -158,14 +194,14 @@ export class AIClassifier {
   /**
    * Generate synthetic training data based on behavioral research patterns
    */
-  private static generateTrainingData(): { features: tf.Tensor2D, labels: tf.Tensor2D } {
+  private static generateTrainingData(): { features: any, labels: any } {
     const numSamples = 1000;
     const featuresData: number[][] = [];
     const labelsData: number[][] = [];
 
     for (let i = 0; i < numSamples; i++) {
       const isHealthy = Math.random() > 0.4; // 60% doomscroll, 40% healthy (realistic distribution)
-      
+
       let sessionLength, attentionSpan, dopamineSpikeIndex, replaySensitivity;
       let fatigueSlope, circadianDrift, videoCount, timeOfDay;
       let scrollMomentum, rewardVariability, bingeBursts, engagementHalfLife;
@@ -219,9 +255,13 @@ export class AIClassifier {
       labelsData.push([isHealthy ? 0 : 1]); // 0 = healthy, 1 = doomscroll
     }
 
+    if (!this.tf) {
+      throw new Error('TensorFlow.js not loaded');
+    }
+
     return {
-      features: tf.tensor2d(featuresData),
-      labels: tf.tensor2d(labelsData)
+      features: this.tf.tensor2d(featuresData),
+      labels: this.tf.tensor2d(labelsData)
     };
   }
 
@@ -286,8 +326,12 @@ export class AIClassifier {
       const features = this.extractFeatures(session, metrics);
       const normalizedFeatures = this.normalizeFeatures(features);
 
+      if (!this.tf) {
+        throw new Error('TensorFlow.js not loaded');
+      }
+
       // Make prediction
-      const prediction = this.model.predict(tf.tensor2d([normalizedFeatures])) as tf.Tensor;
+      const prediction = this.model.predict(this.tf.tensor2d([normalizedFeatures])) as any;
       const predictionData = await prediction.data();
       const confidence = predictionData[0];
 
@@ -313,7 +357,7 @@ export class AIClassifier {
 
     } catch (error) {
       console.error('Error in AI classification:', error);
-      
+
       // Fallback to rule-based classification
       return {
         classification: metrics.healthClassification,
@@ -348,8 +392,12 @@ export class AIClassifier {
         return this.normalizeFeatures(features);
       });
 
+      if (!this.tf) {
+        throw new Error('TensorFlow.js not loaded');
+      }
+
       // Make batch prediction
-      const predictions = this.model.predict(tf.tensor2d(allFeatures)) as tf.Tensor;
+      const predictions = this.model.predict(this.tf.tensor2d(allFeatures)) as any;
       const predictionData = await predictions.data();
 
       // Clean up tensors
@@ -359,7 +407,7 @@ export class AIClassifier {
       return sessions.map(({ session, metrics }, index) => {
         const confidence = predictionData[index];
         let classification: 'healthy' | 'doomscroll' | 'unknown';
-        
+
         if (confidence > 0.7) {
           classification = 'doomscroll';
         } else if (confidence < 0.3) {
@@ -378,7 +426,7 @@ export class AIClassifier {
 
     } catch (error) {
       console.error('Error in batch AI classification:', error);
-      
+
       // Fallback to rule-based classification
       return sessions.map(({ session, metrics }) => ({
         classification: metrics.healthClassification,

@@ -108,7 +108,7 @@ describe('MetricsEngine', () => {
       // Create a session starting at 11:30 PM
       const lateNightStart = new Date();
       lateNightStart.setHours(23, 30, 0, 0);
-      
+
       const session: ViewingSession = {
         id: 'late-session',
         startTime: lateNightStart.getTime(),
@@ -130,7 +130,7 @@ describe('MetricsEngine', () => {
       // Create a session starting at 2:00 PM
       const normalStart = new Date();
       normalStart.setHours(14, 0, 0, 0);
-      
+
       const session: ViewingSession = {
         id: 'normal-session',
         startTime: normalStart.getTime(),
@@ -184,53 +184,63 @@ describe('MetricsEngine', () => {
     });
   });
 
+  const createBaseMetrics = (overrides: any = {}) => ({
+    dopamineSpikeIndex: 0,
+    attentionSpan: 0,
+    replaySensitivity: 0,
+    sessionLength: 0,
+    fatiguePoints: [],
+    circadianDrift: false,
+    healthClassification: 'unknown' as const,
+    confidence: 0.8,
+    timestamp: Date.now(),
+    scrollMomentum: 0.5,
+    rewardVariability: 10,
+    bingeBursts: [],
+    engagementHalfLife: 50,
+    cognitiveLoad: 0.5,
+    habitStrength: 0.5,
+    noveltyBias: 0.5,
+    sessionArchetype: 'unknown' as const,
+    ...overrides
+  });
+
   describe('analyzeSessionHealth', () => {
     it('should classify healthy session', () => {
-      const healthyMetrics = {
+      const healthyMetrics = createBaseMetrics({
         dopamineSpikeIndex: 1.5, // Low
         attentionSpan: 30, // Moderate
         replaySensitivity: 2, // Low
         sessionLength: 45, // Reasonable
-        fatiguePoints: [],
-        circadianDrift: false,
-        healthClassification: 'unknown' as const,
-        confidence: 0.8,
         timestamp: Date.now()
-      };
+      });
 
       const classification = MetricsEngine.analyzeSessionHealth(healthyMetrics);
       expect(classification).toBe('healthy');
     });
 
     it('should classify doomscroll session', () => {
-      const doomscrollMetrics = {
+      const doomscrollMetrics = createBaseMetrics({
         dopamineSpikeIndex: 8, // High
         attentionSpan: 3, // Very short
         replaySensitivity: 15, // High
         sessionLength: 150, // Very long
-        fatiguePoints: [],
         circadianDrift: true,
-        healthClassification: 'unknown' as const,
-        confidence: 0.8,
         timestamp: Date.now()
-      };
+      });
 
       const classification = MetricsEngine.analyzeSessionHealth(doomscrollMetrics);
       expect(classification).toBe('doomscroll');
     });
 
     it('should return unknown for ambiguous sessions', () => {
-      const ambiguousMetrics = {
+      const ambiguousMetrics = createBaseMetrics({
         dopamineSpikeIndex: 3, // Medium
         attentionSpan: 15, // Medium
         replaySensitivity: 5, // Medium
         sessionLength: 60, // Medium
-        fatiguePoints: [],
-        circadianDrift: false,
-        healthClassification: 'unknown' as const,
-        confidence: 0.8,
         timestamp: Date.now()
-      };
+      });
 
       const classification = MetricsEngine.analyzeSessionHealth(ambiguousMetrics);
       expect(classification).toBe('unknown');
@@ -249,7 +259,7 @@ describe('MetricsEngine', () => {
       delete activeSession.endTime;
 
       const metrics = MetricsEngine.updateRealTimeMetrics(activeSession);
-      
+
       expect(metrics.confidence).toBeLessThan(0.8); // Lower confidence for active session
       expect(metrics.sessionLength).toBeGreaterThan(0); // Should calculate current length
     });
@@ -264,7 +274,7 @@ describe('MetricsEngine', () => {
       completedSession.isActive = false;
 
       const metrics = MetricsEngine.updateRealTimeMetrics(completedSession);
-      
+
       expect(metrics.confidence).toBe(0.8); // Full confidence for completed session
     });
   });

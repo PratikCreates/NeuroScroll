@@ -1,10 +1,6 @@
 const path = require('path');
 
-module.exports = {
-  entry: {
-    'background': './src/background/background.ts',
-    'content-script': './src/content/content-script.ts'
-  },
+const commonConfig = {
   module: {
     rules: [
       {
@@ -25,10 +21,37 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
-    clean: true,
+    // Do not clean here, or handle carefully if parallel
   },
   optimization: {
     minimize: false, // Keep readable for development
   },
-  devtool: 'cheap-module-source-map',
+  devtool: false,
 };
+
+module.exports = [
+  // Background Script - Runs in Service Worker
+  Object.assign({}, commonConfig, {
+    name: 'background',
+    entry: {
+      'background': './src/background/background.ts',
+    },
+    target: 'webworker', // Critical for Service Worker chunk loading (importScripts)
+    output: {
+      ...commonConfig.output,
+      clean: true, // Clean once
+    }
+  }),
+  // Content Script - Runs in Page Context
+  Object.assign({}, commonConfig, {
+    name: 'content',
+    entry: {
+      'content-script': './src/content/content-script.ts'
+    },
+    target: 'web', // Critical for DOM access
+    output: {
+      ...commonConfig.output,
+      clean: false, // Don't clean again
+    }
+  })
+];
